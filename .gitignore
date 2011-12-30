@@ -1,0 +1,10 @@
+# emacs temporary copys
+*~
+
+# LaTeX output
+*.aux
+*.bbl
+*.blg
+*.dvi
+*.spl
+*.log
