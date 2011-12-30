@@ -28,4 +28,64 @@ Insert abstract here
 
 \section{Introduction}
 
+The introduction of exascale computing in the next decade will introduce a
+variety of challenges both for hardware and software developers. As such,
+research and development efforts are underway aimed at enabling high-fidelity,
+large-scale simulations that will scale on current and future computer
+achitectures. To support these studies, a new Monte Carlo code has been under
+development since early 2011 at the Massachusetts Institute of Technology. The
+goal in developing a new Monte Carlo code rather than using a previously
+developed code is to have a code that is easily extensible for research purposes
+in addition to being high performance, freely available, and written in a modern
+programming language.
+
+\section{Methods}
+
+\subsection{Physics}
+
+The initial work on OpenMC has focused on criticality calculations as applied to
+the simluation of nuclear reactors. The solution of the eigenvalue problem
+proceeds by the method of successive generations [REF] wherein a constant number
+of neutron histories are tracked from birth to death. The data governing the
+interaction of neutrons with various nuclei are represented using the ACE format
+[REF] which is used by MCNP \cite{mcnp} and Serpent \cite{serpent}. ACE-format
+data can be generated with the NJOY nuclear data processing system which
+converts raw ENDF/B data into linearly-interpolable data as required by most
+Monte Carlo codes. The use of a standard cross section format allows for a
+direct comparison of OpenMC with other codes since the same cross section
+libraries can be used.
+
+The ACE-format contains continuous-energy cross sections for the following types
+of reactions: elastic scattering, fission (or first-chance fission,
+second-chance fission, etc.), inelastic scattering, (n,xn), (n,$\gamma$), and
+various other absorption reactions. For those reactions with one or multiple
+neutrons. For those reactions with one or more neutrons in the exit channel,
+secondary angle and energy distributions may be present. In addition,
+fissionable nuclides have total, prompt, and/or delayed $\nu$ as a function of
+energy, neutron precursor distributions. Many nuclides also have probability
+tables to be used for accurate treatment of self-shielding in the unresolved
+resonance range. For bound scatterers, separate tables with $S(\alpha,\beta)$
+scattering law data can be used. Cross sections are represented as tabulated
+functions of energy that are linearly interpolated between sucessive values.
+
+For neutrons at higher energies, it can be safely assumed that the motion of the
+target nucleus is negligible relative to the velocity of the neutron
+itself. However, in the thermal and intermediate energy ranges, the target
+velocity will alter both the cross sections and the secondary energy and angle
+distributions of scattered neutrons. To account for the effect on cross
+sections, Doppler broadening is typically performed in the cross section
+generation stage. For the angle and energy distributions, OpenMC uses a free gas
+approximation \cite{freegas} wherein the velocity of the target nuclei have a
+Maxwellian distribution. For thermal neutrons scattering from bound molecules
+such as hydrogen or deuterium in water, graphite, beryllium, etc., the free gas
+approximation will not accurately capture the scattering kinematics and
+$S(\alpha,\beta)$ scattering law data must be used.
+
+\section{Results}
+
+\section{Conclusions}
+
+\bibliography{main}
+\bibliographystyle{elsarticle-num}
+
 \end{document}
