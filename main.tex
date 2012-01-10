@@ -81,7 +81,45 @@ such as hydrogen or deuterium in water, graphite, beryllium, etc., the free gas
 approximation will not accurately capture the scattering kinematics and
 $S(\alpha,\beta)$ scattering law data must be used.
 
+In the unresolved resonance energy range, it is not adequate to use smooth cross
+sections since the experimental resolution is not fine enough to resolve all
+resonances. To properly account for self-shielding in this energy range, OpenMC
+uses the probability table method \cite{probtables}. For most thermal and fast
+reactors, the use of probability tables will not significantly affect problem
+results. However, for some problems with an appreciation flux spectrum in the
+unresolved resonance range, not using probability tables will lead to incorrect
+results \cite{probtables-testing}.
+
+\subsection{Geometry}
+
+Geometric objects are modeled in OpenMC using constructive solid geometry
+whereby any closed volume is represented as the union or intersection of one or
+multiple second-order surfaces. Transmitting, vacuum, or reflective boundary
+conditions can be applied to any surface. 
+
+\subsection{Tallies}
+
+Description of tally system.
+
+\subsection{Input and Files}
+
+Description of XML files.
+
+\subsection{Parallelism}
+
+Description of fission bank method.
+
+\subsection{Code Development}
+
+Modern fortran 2003, dictionaries/lists, git/github for version control, issue
+tracking, etc., Sphinx for documentation. Support for multiple compilers at
+varying levels of optimization and compilation flags.
+
 \section{Results}
+
+\subsection{Benchmarks}
+
+\subsection{Parallel Scaling}
 
 \section{Conclusions}
 
