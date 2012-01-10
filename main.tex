@@ -92,10 +92,27 @@ results \cite{probtables-testing}.
 
 \subsection{Geometry}
 
-Geometric objects are modeled in OpenMC using constructive solid geometry
-whereby any closed volume is represented as the union or intersection of one or
-multiple second-order surfaces. Transmitting, vacuum, or reflective boundary
-conditions can be applied to any surface. 
+In order to model arbitrarily complex geometric objects, OpenMC uses a
+constructive solid geometry representation. In such a representation, any closed
+volume can be represented as the union, intersection, and/or difference of
+multiple half-spaces. Each half-space is in turn defined as the positive or
+negative side of a plane or quadratic surface. This allows curved surfaces such
+as spheres and cylinders to be modeled exactly with no error due to mesh
+discretization. Almost all geometries of interest in particle transport can be
+modeled with first and second-order surfaces with the exception of some fusion
+geometries where a fourth-order torus is used.
+
+As is typical in most Monte Carlo codes, OpenMC provides constructs that allow
+the user to model a two or three-dimensional structured mesh consisting of
+quadrilaterals or hexagons. These constructs are useful for modeling the core
+and assembly layout in a typical light-water reactor or the hexagonal layout in
+a VVER. As in MCNP and Serpent, these repeated structured are handled through
+the use of universes. Transmitting, vacuum, or reflective boundary conditions
+can be applied to any surface giving the user full flexibility in the treatment
+of boundaries.
+
+As OpenMC continues to mature, it is likely that more geometric constructs will
+become available that give the user more flexibility and aid model generation.
 
 \subsection{Tallies}
 
