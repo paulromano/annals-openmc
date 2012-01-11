@@ -1,24 +1,22 @@
-@STRING{NSE = "Nuclear Science and Engineering"}
+@string{NSE = "Nuclear Science and Engineering"}
 
-@STRING{ANL = "Argonne National Laboratory"}
+@string{ANL = "Argonne National Laboratory"}
 
-@STRING{KAPL = "Knolls Atomic Power Laboratory"}
+@string{KAPL = "Knolls Atomic Power Laboratory"}
 
-@STRING{LANL = "Los Alamos National Laboratory"}
+@string{LANL = "Los Alamos National Laboratory"}
 
-@STRING{TRANS = "Trans. Am. Nucl. Soc."}
+@string{TRANS = "Trans. Am. Nucl. Soc."}
 
-@ARTICLE{probtables,
-  author = "Leo B. Levitt",
-  title = "The Probability Table Method for Treating Unresolved Neutron
-                  Resonances in Monte Carlo Calculations",
-  journal = NSE,
-  volume = 49,
-  pages = "450-457",
-  year = 1972
+@techreport{freegas,
+   author = "Ely M. Gelbard",
+   title = "Epithermal scattering in {VIM}",
+   institution = ANL,
+   number = "FRA-TM-123",
+   year = 1979
 }
 
-@INPROCEEDINGS{hoogenboom,
+@inproceedings{hoogenboom,
    author = "J. E. Hoogenboom and W. R. Martin",
    title = "{A Proposal for a Benchmark to Monitor the Performance of
                   Detailed Monte Carlo Calculation of Power Densities
@@ -31,7 +29,50 @@
    year = 2009
 }
 
-@INPROCEEDINGS{probtables-testing,
+@inproceedings{mc21,
+   author = "T. M. Sutton and T. J. Donovan and T. H. Trumbull and P. S. Dobreff
+                  and E. Caro and D. P. Griesheimer and L. J. Tyburski and
+                  D. C. Carpenter and H. J. Joo",
+   title = "The {MC21} Monte Carlo Transport Code",
+   booktitle = "Proceedings of the Joint International Topical Meeting on
+                  Mathematics and Comutation and Supercomputing in Nuclear
+                  Applications",
+   address = "Monterey, CA",
+   month = apr,
+   year = 2007,
+}
+
+@techreport{mcnp,
+   author = "{X-5 Monte Carlo Team}",
+   title = "{MCNP - A General Monte Carlo N-Particle Transport Code,
+                  Version 5}",
+   institution = LANL,
+   number = "LA-UR-03-1987",
+   month = oct,
+   year = 2005,
+}
+
+@article{mcnp-efficiency,
+   author = "Derk Van Veen and J. Eduard Hoogenboom",
+   title = "Efficiency Improvement of Local Power Estimation in the General
+                  Purpose Monte Carlo Code {MCNP}",
+   journal = "Progress in Nuclear Science and Technology",
+   volume = 2,
+   pages = "866-871",
+   year = 2011
+}
+
+@article{probtables,
+  author = "Leo B. Levitt",
+  title = "The Probability Table Method for Treating Unresolved Neutron
+                  Resonances in Monte Carlo Calculations",
+  journal = NSE,
+  volume = 49,
+  pages = "450-457",
+  year = 1972
+}
+
+@inproceedings{probtables-testing,
    author = "J. P. Weinman",
    title = "Monte Carlo Testing of Unresolved Resonance Treatment for Fast and
                   Intermediate Critical Assemblies",
@@ -42,25 +83,7 @@
    year = 1998
 }
 
-@TECHREPORT{freegas,
-   author = "Ely M. Gelbard",
-   title = "Epithermal scattering in {VIM}",
-   institution = ANL,
-   number = "FRA-TM-123",
-   year = 1979
-}
-
-@TECHREPORT{mcnp,
-   author = "{X-5 Monte Carlo Team}",
-   title = "{MCNP - A General Monte Carlo N-Particle Transport Code,
-                  Version 5}",
-   institution = LANL,
-   number = "LA-UR-03-1987",
-   month = oct,
-   year = 2005,
-}
-
-@TECHREPORT{serpent,
+@techreport{serpent,
    author = "Jaakko Lepp{\"{a}}nen",
    title = "Development of a New Monte Carlo Reactor Physics Code",
    institution = "VTT Technical Research Centre of Finland",

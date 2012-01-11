@@ -21,7 +21,14 @@
   MA 02141}
 
 \begin{abstract}
-Insert abstract here
+A new Monte Carlo code called OpenMC is currently under development at the
+Massachusetts Institute of Technology as a tool for simulation on
+high-performance computing platforms. Given that many legacy codes do not scale
+well on existing and future parallel computer architectures, OpenMC has been
+developed from scratch and with a focus on high performance scalable algorithms
+as well as modern software design patterns. The present work describes the
+methods used in the OpenMC code and demonstrates the performance and accuracy of
+the code on a variety of problems.
 \end{abstract}
 
 \maketitle
@@ -116,7 +123,38 @@ become available that give the user more flexibility and aid model generation.
 
 \subsection{Tallies}
 
-Description of tally system.
+The tally capabilities in OpenMC are roughly based off the tally system
+implemented in MC21 \cite{MC21}. The user can specify one or more filters which
+identify which regions of phase space should score to a given tally as well as
+the scoring function. For example, if the desired tally was the $(n,\gamma)$
+reaction rate in a fuel pin, the filter would specify the cell which contains
+the fuel pin and the scoring function would be the radiative capture reaction
+rate. The following scoring functions are currently available: flux, total
+reaction rate, scattering reaction rate, neutron production from scattering
+[REF], higher scattering moments, $(n,xn)$ reaction rates, absorption reaction
+rate, fission reaction rate, neutron production rate from fission, and surface
+currents. The following variables can used as filters: universe, material, cell,
+birth cell, surface, mesh, pre-collision energy, and post-collision energy.
+
+With filters for pre- and post-collision energy and scoring functions for
+scattering and fission production, it is possible to use OpenMC to generate
+cross-sections needed for determinstics solvers such as coarse-mesh finite
+diffusion.
+
+As has been demonstrated \cite{mcnp-efficiency}, some Monte Carlo codes suffer
+severe performance penalties where tallying a large number of quantites. Care
+must be taken to ensure that a tally system scales well with the total number of
+tally bins. In OpenMC, a mapping technique is used that allows for a fast
+determination of what tally/bin combinations need to be scored to given a
+particle's phase space coordinates. For each discrete filter variable, a list of
+tally and bin combinations is created at the start of the simulation which would
+be scored to for every possible value of the filter variable. If a particle is
+in cell $n$, the mapping would tell us what tally/bin combinations specify cell
+$n$ for the cell filter variable. In this manner, it is not necessary to check
+the phase space variables against each tally. Note that this technique only
+applies to discrete filter variables and cannot be applies to energy bins. For
+energy filters, it is necessary to perform a binary search on the specified
+grid.
 
 \subsection{Input and Files}
 
@@ -134,9 +172,11 @@ varying levels of optimization and compilation flags.
 
 \section{Results}
 
-\subsection{Benchmarks}
+\subsection{Tally Performance}
 
 \subsection{Parallel Scaling}
+
+\subsection{Benchmarks}
 
 \section{Conclusions}
 
