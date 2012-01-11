@@ -1,5 +1,30 @@
 \documentclass{elsarticle}
 
+\usepackage{listings}
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+  basicstyle=\footnotesize,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape,
+  frame=single
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={version,type,id,material,surfaces,coeffs,boundary}% list your attributes here
+}
+
 \begin{document}
 
 \title{The OpenMC Monte Carlo Code\tnoteref{t1}}
@@ -158,7 +183,46 @@ grid.
 
 \subsection{Input and Files}
 
-Description of XML files.
+Given that many Monte Carlo particle transport codes have been in production use
+for decades, it is perhaps not surprising that their user input formats are
+reminiscent of the days when decks of punch cards had to be used to perform a
+simulation. Each code generally has its own arbitrary format for specifying
+input and, unfortunately, these formats are generally not ``user-friendly''. To
+a new user of some Monte Carlo codes, an input file may appear as merely a
+conglomeration a numbers in an ASCII file with no apparent meaning. Thus, when
+OpenMC was designed, it was decided that the user input should be standardized
+to a format which would be easy-to-use as well as convenient for code developers
+to modify and extend.
+
+Rather than use an arbitrary text format, OpenMC uses Extensible Markup Language
+(XML) [REF] for all user input files. The XML format makes it easy for a user to
+visually inspect an input file and determine its contents as well as for the
+code developer who must write a routine that reads the input. All the input for
+a simulation is specified in multiple files that are logically grouped instead
+of one long input file. In the present version of OpenMC, separate XML input
+files are created for the geometry, the materials, miscellaneous settings, and
+tallies. Further extensions to the code may add additional input files such as
+input parameters for OpenMC accelerated by coarse-mesh finite difference
+methods.
+
+\begin{figure}
+  \begin{lstlisting}[language=xml]
+<?xml version="1.0"?>
+<geometry>
+
+  <!-- U-233 Sphere surrounded by U-235 -->
+
+  <cell id="1" material="1" surfaces="-1"/>
+  <cell id="2" material="2" surfaces="1 -2"/>
+
+  <surface id="1" type="sphere" coeffs="0. 0. 0. 4.5999"/>
+  <surface id="2" type="sphere" coeffs="0. 0. 0. 4.5999" boundary="vacuum"/>
+
+</geometry>
+  \end{lstlisting}
+  \caption{Geometry XML file for reflected sphere of U-233}
+  \label{fig:geometry-xml}
+\end{figure}
 
 \subsection{Parallelism}
 
