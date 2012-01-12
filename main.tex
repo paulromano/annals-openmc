@@ -78,15 +78,15 @@ programming language.
 
 The initial work on OpenMC has focused on criticality calculations as applied to
 the simluation of nuclear reactors. The solution of the eigenvalue problem
-proceeds by the method of successive generations [REF] wherein a constant number
-of neutron histories are tracked from birth to death. The data governing the
-interaction of neutrons with various nuclei are represented using the ACE format
-[REF] which is used by MCNP \cite{mcnp} and Serpent \cite{serpent}. ACE-format
-data can be generated with the NJOY nuclear data processing system which
-converts raw ENDF/B data into linearly-interpolable data as required by most
-Monte Carlo codes. The use of a standard cross section format allows for a
-direct comparison of OpenMC with other codes since the same cross section
-libraries can be used.
+proceeds by the method of successive generations \cite{lieberoth} wherein a
+constant number of neutron histories are tracked from birth to death. The data
+governing the interaction of neutrons with various nuclei are represented using
+the ACE format \cite{ace-format} which is used by MCNP \cite{mcnp} and Serpent
+\cite{serpent}. ACE-format data can be generated with the NJOY nuclear data
+processing system which converts raw ENDF/B data into linearly-interpolable data
+as required by most Monte Carlo codes. The use of a standard cross section
+format allows for a direct comparison of OpenMC with other codes since the same
+cross section libraries can be used.
 
 The ACE-format contains continuous-energy cross sections for the following types
 of reactions: elastic scattering, fission (or first-chance fission,
@@ -209,12 +209,12 @@ methods.
 To demonstrate the salient features of the user input format, let us look an
 example of a set of input files from a real model, in this case the
 U233-MET-FAST-002 benchmark problem from the International Handbook of Evaluated
-Criticality Safety Benchmark Experiments [REF]. This benchmark has a single
-spherical region with enriched U-233 metal surrounded by a spherical shell of
-U-235. Figure \ref{fig:geometry-xml} shows the geometry.xml file which describes
-the constructive solid geometry model. A few points should be made regarding
-this file. Firstly, the order in which the \textless cell \textgreater and
-\textless surface \textgreater elements appear is not of any
+Criticality Safety Benchmark Experiments \cite{icsbep}. This benchmark has a
+single spherical region with enriched U-233 metal surrounded by a spherical
+shell of U-235. Figure \ref{fig:geometry-xml} shows the geometry.xml file which
+describes the constructive solid geometry model. A few points should be made
+regarding this file. Firstly, the order in which the \textless cell\textgreater
+and \textless surface \textgreater elements appear is not of any
 consequence. Secondly, the attributes on the cell and surface elements could
 have appeared as sub-elements defining the same parameters. This gives extra
 flexibility to the user in how they choose to define their input. Figure
@@ -377,12 +377,12 @@ OpenMC is written in standard Fortran 2003. While C and C++ were considered as
 other possible languages for development, ultimately Fortran 2003 was chosen due
 to MIT's research focus on parallel algorithms coupled with the availability of
 co-array features in the Fortran 2008 standard. For input processing, OpenMC
-relies on a modified version of the xml-fortran [REF] parser. Almost all
-important data are encapsulated in derived types. While object-oriented features
-are available in Fortran 2003, they have not yet been employed in OpenMC due to
-limited compiler support. OpenMC has been successfully compiled with the
-gfortran, Intel, PGI, Cray, and IBM compilers with various platforms including
-several Linux distributions and Mac OS X.
+relies on a modified version of the xml-fortran \cite{xml-fortran}
+parser. Almost all important data are encapsulated in derived types. While
+object-oriented features are available in Fortran 2003, they have not yet been
+employed in OpenMC due to limited compiler support. OpenMC has been successfully
+compiled with the gfortran, Intel, PGI, Cray, and IBM compilers with various
+platforms including several Linux distributions and Mac OS X.
 
 Rather than use cvs or svn for version control as is common for older software,
 we chose to use the git distributed revision control system. The advantages of a
