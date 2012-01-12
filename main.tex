@@ -1,7 +1,9 @@
 \documentclass{elsarticle}
 
+\usepackage{hyperref}
 \usepackage{listings}
 \usepackage{color}
+
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
@@ -157,10 +159,11 @@ reaction rate in a fuel pin, the filter would specify the cell which contains
 the fuel pin and the scoring function would be the radiative capture reaction
 rate. The following scoring functions are currently available: flux, total
 reaction rate, scattering reaction rate, neutron production from scattering
-[REF], higher scattering moments, $(n,xn)$ reaction rates, absorption reaction
-rate, fission reaction rate, neutron production rate from fission, and surface
-currents. The following variables can used as filters: universe, material, cell,
-birth cell, surface, mesh, pre-collision energy, and post-collision energy.
+\cite{herman}, higher scattering moments, $(n,xn)$ reaction rates, absorption
+reaction rate, fission reaction rate, neutron production rate from fission, and
+surface currents. The following variables can used as filters: universe,
+material, cell, birth cell, surface, mesh, pre-collision energy, and
+post-collision energy.
 
 With filters for pre- and post-collision energy and scoring functions for
 scattering and fission production, it is possible to use OpenMC to generate
