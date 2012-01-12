@@ -7,7 +7,7 @@
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
 
 \lstset{
-  basicstyle=\footnotesize,
+  basicstyle=\footnotesize\ttfamily,
   columns=fullflexible,
   showstringspaces=false,
   commentstyle=\color{gray}\upshape,
@@ -19,15 +19,16 @@
   morestring=[b]",
   morestring=[s]{>}{<},
   morecomment=[s]{<?}{?>},
+  morecomment=[s]{<!--}{-->},
   stringstyle=\color{black},
   identifierstyle=\color{darkblue},
   keywordstyle=\color{cyan},
-  morekeywords={version,type,id,material,surfaces,coeffs,boundary}% list your attributes here
+  morekeywords={}
 }
 
 \begin{document}
 
-\title{The OpenMC Monte Carlo Code\tnoteref{t1}}
+\title{The OpenMC Monte Carlo Particle Transport Code\tnoteref{t1}}
 \tnotetext[t1]{This research was performed under appointment to the Rickover
   Fellowship Program in Nuclear Engineering sponsored by Naval Reactor Division
   of the U.S. Department of Energy.}
@@ -205,34 +206,192 @@ tallies. Further extensions to the code may add additional input files such as
 input parameters for OpenMC accelerated by coarse-mesh finite difference
 methods.
 
+To demonstrate the salient features of the user input format, let us look an
+example of a set of input files from a real model, in this case the
+U233-MET-FAST-002 benchmark problem from the International Handbook of Evaluated
+Criticality Safety Benchmark Experiments [REF]. This benchmark has a single
+spherical region with enriched U-233 metal surrounded by a spherical shell of
+U-235. Figure \ref{fig:geometry-xml} shows the geometry.xml file which describes
+the constructive solid geometry model. A few points should be made regarding
+this file. Firstly, the order in which the \textless cell \textgreater and
+\textless surface \textgreater elements appear is not of any
+consequence. Secondly, the attributes on the cell and surface elements could
+have appeared as sub-elements defining the same parameters. This gives extra
+flexibility to the user in how they choose to define their input. Figure
+\ref{fig:materials-xml} shows the materials.xml file described the materials
+which fill the two regions in the solid geometry model. The units for the
+density of the material are written explicitly and can be given in other formats
+such as atoms per barn-cm. On the \textless nuclide \textgreater elements,
+``ao'' stands for atom fraction. Weight fractions can alternatively be specified
+with the ``wo'' attribute. Figure \ref{fig:settings-xml} shows the settings.xml
+file that describes all simulation parameters and other options that the code
+should or should not use. Lastly, Figure \ref{fig:tallies-xml} shows the
+tallies.xml that specifies what quantities the user wants to determine from the
+simulation. In this case, the code will give the nu-fission reaction rate,
+$\nu\Sigma_f\phi$, in the U-233 sphere and the U-235 shell, each over two energy
+groups.
+
 \begin{figure}
   \begin{lstlisting}[language=xml]
 <?xml version="1.0"?>
 <geometry>
 
-  <!-- U-233 Sphere surrounded by U-235 -->
-
   <cell id="1" material="1" surfaces="-1"/>
   <cell id="2" material="2" surfaces="1 -2"/>
 
   <surface id="1" type="sphere" coeffs="0. 0. 0. 4.5999"/>
-  <surface id="2" type="sphere" coeffs="0. 0. 0. 4.5999" boundary="vacuum"/>
+  <surface id="2" type="sphere" coeffs="0. 0. 0. 6.5887" boundary="vacuum"/>
 
 </geometry>
   \end{lstlisting}
-  \caption{Geometry XML file for reflected sphere of U-233}
+  \caption{Geometry XML file for benchmark model U233-MET-FAST-002.}
   \label{fig:geometry-xml}
+\end{figure}
+
+\begin{figure}
+  \begin{lstlisting}[language=xml]
+<?xml version="1.0"?>
+<materials>
+
+  <default_xs>70c</default_xs>
+
+  <material id="1">
+    <density value="18.644" units="g/cm3" />
+    <nuclide name="U-233" ao="4.7312e-2" />
+    <nuclide name="U-234" ao="5.2770e-4" />
+    <nuclide name="U-238" ao="3.3015e-4" />
+  </material>
+
+  <material id="2">
+    <density value="18.80" units="g/cm3" />
+    <nuclide name="U-235" ao="4.4892e-2" />
+    <nuclide name="U-238" ao="3.2340e-3" />
+  </material>
+
+</materials>
+  \end{lstlisting}
+  \caption{Material XML file for benchmark model U233-MET-FAST-002.}
+  \label{fig:materials-xml}
+\end{figure}
+
+\begin{figure}
+  \begin{lstlisting}[language=XML]
+<?xml version="1.0"?>
+<settings>
+ 
+  <criticality>
+    <cycles>3000</cycles>
+    <inactive>20</inactive>
+    <particles>10000</particles>
+  </criticality>
+
+  <source>
+    <type>box</type>
+    <coeffs>-1 -1 -1  1  1  1</coeffs>
+  </source>
+
+</settings>
+  \end{lstlisting}
+  \caption{Settings XML file for benchmark model U233-MET-FAST-002.}
+  \label{fig:settings-xml}
+\end{figure}
+
+\begin{figure}
+  \begin{lstlisting}[language=XML]
+<?xml version="1.0"?>
+<tallies>
+
+  <tally id="1">
+    <filters>
+      <cell>1 2</cell>
+      <energy>0.0 0.653e-6 20.0</energy>
+    </filters>
+    <macros>nu-fission</macros>
+  </tally>
+
+</tallies>
+  \end{lstlisting}
+  \caption{Tallies XML file for benchmark model U233-MET-FAST-002.}
+  \label{fig:tallies-xml}
 \end{figure}
 
 \subsection{Parallelism}
 
-Description of fission bank method.
+One weakness in many Monte Carlo codes is the ability to run a simulation with
+more than a few dozen processors and attain good parallel scalability. In
+criticality calculations, this sub-optimal performance is largely related to the
+implementation of the fission bank, an array in memory where fission sites are
+stored during one generation of neutrons and sampled to select sites for a
+subsequent generation of neutrons. A typical parallel implementation of the
+fission bank relies on all processes sending their fission sites to one master
+process who then sorts and broadcasts the source sites for the next generation.
+
+In OpenMC, a new algorithm has been developed that overcomes the poor
+scalability of typical parallel fission bank algorithms
+\cite{fissionbank}. Since the source sites for each generation are sampled from
+the fission sites banked from the previous generation, it is a common occurrence
+for a fission site to be banked on one process and sent back to the master only
+to get sent back to the same process as a source site. As a result, much of the
+communication inherent in the typical fission bank algorithm is entirely
+unnecessary. By keeping the fission sites local, having each process sample
+fission sites, and sending sites between processes only as needed, one can cut
+down on most of the communication. The algorithm in OpenMC works as follows:
+
+\begin{enumerate}
+\item An exclusive scan is performed on the number of sites banked, and the
+  total number of fission bank sites is broadcasted to all processes. By
+  picturing the fission bank as one large array distributed across multiple
+  processes, one can see that this step enables each process to determine the
+  starting index of fission bank sites in this array. Let us call the starting
+  and ending indices on the $i$-th process $a_i$ and $b_i$, respectively;
+\item Each process samples sites at random from the fission bank using the same
+  starting seed. A separate array on each process is created that consists of
+  sites that were sampled local to that process, {\em i.e.} if the index of the
+  sampled site is between $a_i$ and $b_i$, it is set aside;
+\item If $a_i$ is less than $iN/p$ where $N$ is the total number of particles
+  per generation and $p$ is the number of processors, then send $iN/p - a_i$
+  sites to the left adjacent process. Similarly, if $a_i$ is greater than
+  $iN/p$, then receive $a_i - iN/p$ from the left adjacent process. This idea is
+  applied to the fission bank sites at the end of each process' array as
+  well. If $b_i$ is less than $(i+1)N/p$, then receive $(i+1)N/p - b_i$ sites
+  from the right adjacent process. If $b_i$ is greater than $(i+1)N/p$, then
+  send $b_i - (i+1)N/p$ sites to the right adjacent process. Thus, each process
+  sends/receives only two messages under normal circumstances.
+\end{enumerate}
+
+It can be shown that the maximum expected communication cost from this algorithm
+is independent of the number of processes and instead is proportional to the
+square root of the number of particles per generation. In other words, this
+algorithm is $O({\sqrt{N}})$ where a traditional algorithm would be $O({N})$.
 
 \subsection{Code Development}
 
-Modern fortran 2003, dictionaries/lists, git/github for version control, issue
-tracking, etc., Sphinx for documentation. Support for multiple compilers at
-varying levels of optimization and compilation flags.
+One of the substantial benefits of writing a code from scatch is that it is
+natural to take advantage of modern software practices. This applies to every
+aspect of code development including the choice of programming language,
+compilers used, version control system, and documentation. It is instructive to briefly
+discuss the software development methodology and key decision made that affect
+future development.
+
+OpenMC is written in standard Fortran 2003. While C and C++ were considered as
+other possible languages for development, ultimately Fortran 2003 was chosen due
+to MIT's research focus on parallel algorithms coupled with the availability of
+co-array features in the Fortran 2008 standard. For input processing, OpenMC
+relies on a modified version of the xml-fortran [REF] parser. Almost all
+important data are encapsulated in derived types. While object-oriented features
+are available in Fortran 2003, they have not yet been employed in OpenMC due to
+limited compiler support. OpenMC has been successfully compiled with the
+gfortran, Intel, PGI, Cray, and IBM compilers with various platforms including
+several Linux distributions and Mac OS X.
+
+Rather than use cvs or svn for version control as is common for older software,
+we chose to use the git distributed revision control system. The advantages of a
+modern version control system like git or mercurial over cvs and svn are
+numerous and will not be listed here. In addition to git, the web-based hosting
+service github is used to provide a central host, issue tracking, a wiki, and
+documentation hosting. The combination of git and github greatly enables
+developers to maintain high productivity in collaborating with one another,
+testing out new ideas, and documentating their work.
 
 \section{Results}
 
