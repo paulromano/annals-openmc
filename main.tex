@@ -97,11 +97,33 @@ various other absorption reactions. For those reactions with one or multiple
 neutrons. For those reactions with one or more neutrons in the exit channel,
 secondary angle and energy distributions may be present. In addition,
 fissionable nuclides have total, prompt, and/or delayed $\nu$ as a function of
-energy, neutron precursor distributions. Many nuclides also have probability
+energy and neutron precursor distributions. Many nuclides also have probability
 tables to be used for accurate treatment of self-shielding in the unresolved
 resonance range. For bound scatterers, separate tables with $S(\alpha,\beta)$
-scattering law data can be used. Cross sections are represented as tabulated
-functions of energy that are linearly interpolated between sucessive values.
+scattering law data can be used.
+
+One important aspect of a Monte Carlo code is the manner in which cross sections
+are determined. In general, cross sections are represented as tabulated
+functions of energy that are linearly interpolated between sucessive
+values. However, the energy values at which cross sections are tabulated are
+different from one nuclide to another. Thus, in order to determine the total
+cross section of a material, it may be necessary to do a binary search on the
+energy grid of each nuclide within the material. In the Serpent Monte Carlo
+code, a unionized energy grid is constructed and used for all nuclides as
+described in a recent work by Leppanen. The downside of a unionzied energy grid
+is that the memory requirement may be prohibitively high for problems with many
+nuclides. 
+
+OpenMC uses an indexing technique to give the same algorithmic benefit of a
+unionized grid while requiring much less memory. First, an array of energy
+values is constructud that is the union of all points on each nuclide energy
+grid. Then, an array of pointers is stored for each nuclide that gives the
+corresponding index on the nuclide energy grid for each value on the union
+energy grid. This technique does not require that the array of cross-sections
+for each nuclide be modified in any way; instead, the extra array of pointers
+for each nuclide provides a quick means of determining what indices to
+interpolate between when calculating a cross section given the index on the
+union energy grid.
 
 For neutrons at higher energies, it can be safely assumed that the motion of the
 target nucleus is negligible relative to the velocity of the neutron
@@ -185,7 +207,7 @@ applies to discrete filter variables and cannot be applies to energy bins. For
 energy filters, it is necessary to perform a binary search on the specified
 grid.
 
-\subsection{Input and Files}
+\subsection{File Formats}
 
 Given that many Monte Carlo particle transport codes have been in production use
 for decades, it is perhaps not surprising that their user input formats are
