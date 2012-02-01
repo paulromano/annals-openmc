@@ -425,6 +425,55 @@ testing out new ideas, and documentating their work.
 
 \subsection{Benchmarks}
 
+In order to verify that the geometry and physics models implemented in OpenMC
+are working correctly, a number of benchmark models have been constructed for
+OpenMC, and key results were compared with those from MCNP5. Since OpenMC is
+capable of using the same ACE format cross-sections as MCNP5, any differences in
+results between the two codes will be limited to those arising from the geometry
+and physics algorithms. The benchmark problems here were specifically chosen to
+test extreme cases that would lead to large differences in results if the
+underlying algorithms were not implemented correctly.
+
+\subsubsection{Thermal Scattering}
+
+In order to correctly model a typical commercial light-water reactor with a
+thermal spectrum, it is essential to correctly treat the scattering of neutrons
+from bound scatterers such as hydrogen in water. One model that highlights
+differences in the bound-scattering treatment is a very simple pin-cell model
+proposed by Cullen et al. \cite{pincell}. This problem consists of an infinite
+lattice of fuel pins with a 2 inch pitch and varying fuel pin radius. The fuel
+is solely U-235 and U-238 and there is no gap or cladding on the fuel. The water
+is not borated, i.e. consists only of Hydrogen and Oxygen. By having a very
+simple model, the problem achieves two goals:
+\begin{enumerate}
+  \item There is no ``correct'' answer to the problem, and thus those
+    participating in the benchmark don't have a preconceived notion of whether
+    their own results are correct.
+  \item Since the materials are very simple, any differences in answers can be
+    almost solely attributed to the bound-scattering treatment.
+\end{enumerate}
+
+The paper on this benchmark suggested six cases to run corresponding to each
+combination of three different fuel pin radii and two different scattering
+treatments. The fuel pin radii specified were 1/2, 1/4, and 1/8-th of an inch,
+and each of those models was to be run first with and without the
+$S(\alpha,\beta)$ scattering treatment. The report showed that between the 10
+different Monte Carlo codes used, there were differences in k-effective of up to
+2\% even for such a simple model. Of course, there are numerous reasons for the
+vast spread of results between codes including different cross-section libraries
+(ENDF/B-VI, ENDF/B-V, JEFF), cross-section treatments (continuous-energy
+vs. multigroup), user input definitions, and physics algorithms.
+
+In the present work, we compare the results of OpenMC on this simple
+``benchmark'' to those from MCNP5-1.51 using the same cross-section
+libraries. With the same cross-section libraries and similar physics treatments,
+it would be expected that the results between OpenMC and MCNP5 should be very
+close.
+
+\subsubsection{Unresolved Resonance Treatment}
+
+\subsubsection{Full-Core Problems}
+
 \section{Conclusions}
 
 \bibliography{main}
