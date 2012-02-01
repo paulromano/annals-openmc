@@ -470,6 +470,28 @@ libraries. With the same cross-section libraries and similar physics treatments,
 it would be expected that the results between OpenMC and MCNP5 should be very
 close.
 
+Table \ref{tab:pincell} shows k-effective and its uncertainty for the six cases
+described above.
+
+\begin{table}
+  \caption{Effective Multiplication Factor for INDC(USA)-107 pin-cell problem.}
+  \label{tab:pincell}
+  \begin{center}
+  \begin{tabular}{ l c c }
+    \hline
+    Case & MCNP5-1.51 & OpenMC \\
+    \hline
+    1/2\verb+"+ pin, no $S(\alpha,\beta)$ & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    1/2\verb+"+ pin, $S(\alpha,\beta)$    & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    1/4\verb+"+ pin, no $S(\alpha,\beta)$ & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    1/4\verb+"+ pin, $S(\alpha,\beta)$    & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    1/8\verb+"+ pin, no $S(\alpha,\beta)$ & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    1/8\verb+"+ pin, $S(\alpha,\beta)$    & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    \hline
+  \end{tabular}
+  \end{center}
+\end{table}
+
 \subsubsection{Unresolved Resonance Treatment}
 
 \subsubsection{Full-Core Problems}
