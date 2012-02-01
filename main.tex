@@ -53,10 +53,10 @@ A new Monte Carlo code called OpenMC is currently under development at the
 Massachusetts Institute of Technology as a tool for simulation on
 high-performance computing platforms. Given that many legacy codes do not scale
 well on existing and future parallel computer architectures, OpenMC has been
-developed from scratch and with a focus on high performance scalable algorithms
-as well as modern software design patterns. The present work describes the
-methods used in the OpenMC code and demonstrates the performance and accuracy of
-the code on a variety of problems.
+developed from scratch with a focus on high performance scalable algorithms as
+well as modern software design patterns. The present work describes the methods
+used in the OpenMC code and demonstrates the performance and accuracy of the
+code on a variety of problems.
 \end{abstract}
 
 \maketitle
@@ -93,14 +93,13 @@ cross section libraries can be used.
 The ACE-format contains continuous-energy cross sections for the following types
 of reactions: elastic scattering, fission (or first-chance fission,
 second-chance fission, etc.), inelastic scattering, (n,xn), (n,$\gamma$), and
-various other absorption reactions. For those reactions with one or multiple
-neutrons. For those reactions with one or more neutrons in the exit channel,
-secondary angle and energy distributions may be present. In addition,
-fissionable nuclides have total, prompt, and/or delayed $\nu$ as a function of
-energy and neutron precursor distributions. Many nuclides also have probability
-tables to be used for accurate treatment of self-shielding in the unresolved
-resonance range. For bound scatterers, separate tables with $S(\alpha,\beta)$
-scattering law data can be used.
+various other absorption reactions. For those reactions with one or more
+neutrons in the exit channel, secondary angle and energy distributions may be
+present. In addition, fissionable nuclides have total, prompt, and/or delayed
+$\nu$ as a function of energy and neutron precursor distributions. Many nuclides
+also have probability tables to be used for accurate treatment of self-shielding
+in the unresolved resonance range. For bound scatterers, separate tables with
+$S(\alpha,\beta)$ scattering law data can be used.
 
 One important aspect of a Monte Carlo code is the manner in which cross sections
 are determined. In general, cross sections are represented as tabulated
@@ -143,7 +142,7 @@ sections since the experimental resolution is not fine enough to resolve all
 resonances. To properly account for self-shielding in this energy range, OpenMC
 uses the probability table method \cite{probtables}. For most thermal and fast
 reactors, the use of probability tables will not significantly affect problem
-results. However, for some problems with an appreciation flux spectrum in the
+results. However, for some problems with an appreciable flux spectrum in the
 unresolved resonance range, not using probability tables will lead to incorrect
 results \cite{probtables-testing}.
 
@@ -183,7 +182,7 @@ rate. The following scoring functions are currently available: flux, total
 reaction rate, scattering reaction rate, neutron production from scattering
 \cite{herman}, higher scattering moments, $(n,xn)$ reaction rates, absorption
 reaction rate, fission reaction rate, neutron production rate from fission, and
-surface currents. The following variables can used as filters: universe,
+surface currents. The following variables can be used as filters: universe,
 material, cell, birth cell, surface, mesh, pre-collision energy, and
 post-collision energy.
 
@@ -193,17 +192,17 @@ cross-sections needed for determinstics solvers such as coarse-mesh finite
 diffusion.
 
 As has been demonstrated \cite{mcnp-efficiency}, some Monte Carlo codes suffer
-severe performance penalties where tallying a large number of quantites. Care
+severe performance penalties when tallying a large number of quantites. Care
 must be taken to ensure that a tally system scales well with the total number of
 tally bins. In OpenMC, a mapping technique is used that allows for a fast
-determination of what tally/bin combinations need to be scored to given a
+determination of what tally/bin combinations need to be scored to a given
 particle's phase space coordinates. For each discrete filter variable, a list of
 tally and bin combinations is created at the start of the simulation which would
 be scored to for every possible value of the filter variable. If a particle is
 in cell $n$, the mapping would tell us what tally/bin combinations specify cell
 $n$ for the cell filter variable. In this manner, it is not necessary to check
 the phase space variables against each tally. Note that this technique only
-applies to discrete filter variables and cannot be applies to energy bins. For
+applies to discrete filter variables and cannot be applied to energy bins. For
 energy filters, it is necessary to perform a binary search on the specified
 grid.
 
@@ -215,7 +214,7 @@ reminiscent of the days when decks of punch cards had to be used to perform a
 simulation. Each code generally has its own arbitrary format for specifying
 input and, unfortunately, these formats are generally not ``user-friendly''. To
 a new user of some Monte Carlo codes, an input file may appear as merely a
-conglomeration a numbers in an ASCII file with no apparent meaning. Thus, when
+conglomeration of numbers in an ASCII file with no apparent meaning. Thus, when
 OpenMC was designed, it was decided that the user input should be standardized
 to a format which would be easy-to-use as well as convenient for code developers
 to modify and extend.
@@ -231,7 +230,7 @@ tallies. Further extensions to the code may add additional input files such as
 input parameters for OpenMC accelerated by coarse-mesh finite difference
 methods.
 
-To demonstrate the salient features of the user input format, let us look an
+To demonstrate the salient features of the user input format, let us look at an
 example of a set of input files from a real model, in this case the
 U233-MET-FAST-002 benchmark problem from the International Handbook of Evaluated
 Criticality Safety Benchmark Experiments \cite{icsbep}. This benchmark has a
@@ -243,18 +242,17 @@ and \textless surface \textgreater elements appear is not of any
 consequence. Secondly, the attributes on the cell and surface elements could
 have appeared as sub-elements defining the same parameters. This gives extra
 flexibility to the user in how they choose to define their input. Figure
-\ref{fig:materials-xml} shows the materials.xml file described the materials
-which fill the two regions in the solid geometry model. The units for the
-density of the material are written explicitly and can be given in other formats
-such as atoms per barn-cm. On the \textless nuclide \textgreater elements,
-``ao'' stands for atom fraction. Weight fractions can alternatively be specified
-with the ``wo'' attribute. Figure \ref{fig:settings-xml} shows the settings.xml
-file that describes all simulation parameters and other options that the code
-should or should not use. Lastly, Figure \ref{fig:tallies-xml} shows the
-tallies.xml that specifies what quantities the user wants to determine from the
-simulation. In this case, the code will give the nu-fission reaction rate,
-$\nu\Sigma_f\phi$, in the U-233 sphere and the U-235 shell, each over two energy
-groups.
+\ref{fig:materials-xml} shows the materials.xml file describing the materials
+that fill the two regions in the solid geometry model. The units for the density
+of the material are written explicitly and can be given in other formats such as
+atoms per barn-cm. On the \textless nuclide \textgreater elements, ``ao'' stands
+for atom fraction. Weight fractions can alternatively be specified with the
+``wo'' attribute. Figure \ref{fig:settings-xml} shows the settings.xml file that
+describes all simulation parameters and other options that the code should or
+should not use. Lastly, Figure \ref{fig:tallies-xml} shows the tallies.xml that
+specifies what quantities the user wants to determine from the simulation. In
+this case, the code will give the nu-fission reaction rate, $\nu\Sigma_f\phi$,
+in the U-233 sphere and the U-235 shell, each over two energy groups.
 
 \begin{figure}
   \begin{lstlisting}[language=xml]
@@ -384,10 +382,11 @@ down on most of the communication. The algorithm in OpenMC works as follows:
   sends/receives only two messages under normal circumstances.
 \end{enumerate}
 
-It can be shown that the maximum expected communication cost from this algorithm
-is independent of the number of processes and instead is proportional to the
-square root of the number of particles per generation. In other words, this
-algorithm is $O({\sqrt{N}})$ where a traditional algorithm would be $O({N})$.
+It was shown \cite{fissionbank} that the maximum expected communication cost
+from this algorithm is independent of the number of processes and instead is
+proportional to the square root of the number of particles per generation. In
+other words, this algorithm is $O({\sqrt{N}})$ where a traditional algorithm
+would be $O({N})$.
 
 \subsection{Code Development}
 
