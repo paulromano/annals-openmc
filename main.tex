@@ -436,15 +436,15 @@ underlying algorithms were not implemented correctly.
 
 \subsubsection{Thermal Scattering}
 
-In order to correctly model a typical commercial light-water reactor with a
-thermal spectrum, it is essential to correctly treat the scattering of neutrons
-from bound scatterers such as hydrogen in water. One model that highlights
-differences in the bound-scattering treatment is a very simple pin-cell model
-proposed by Cullen et al. \cite{pincell}. This problem consists of an infinite
-lattice of fuel pins with a 2 inch pitch and varying fuel pin radius. The fuel
-is solely U-235 and U-238 and there is no gap or cladding on the fuel. The water
-is not borated, i.e. consists only of Hydrogen and Oxygen. By having a very
-simple model, the problem achieves two goals:
+For problems that have a thermal spectrum such as a typical commercial
+light-water reactor, it is essential to correctly treat the scattering of
+neutrons from bound scatterers such as hydrogen in water. One model that
+highlights differences in the bound-scattering treatment is a very simple
+pin-cell model proposed by Cullen et al. \cite{pincell}. This problem consists
+of an infinite lattice of fuel pins with a 2 inch pitch and varying fuel pin
+radius. The fuel is solely U-235 and U-238 and there is no gap or cladding on
+the fuel. The water is not borated, i.e. consists only of Hydrogen and
+Oxygen. By having a very simple model, the problem achieves two goals:
 \begin{enumerate}
   \item There is no ``correct'' answer to the problem, and thus those
     participating in the benchmark don't have a preconceived notion of whether
@@ -464,14 +464,14 @@ vast spread of results between codes including different cross-section libraries
 (ENDF/B-VI, ENDF/B-V, JEFF), cross-section treatments (continuous-energy
 vs. multigroup), user input definitions, and physics algorithms.
 
-In the present work, we compare the results of OpenMC on this simple
-``benchmark'' to those from MCNP5-1.51 using the same cross-section
-libraries. With the same cross-section libraries and similar physics treatments,
-it would be expected that the results between OpenMC and MCNP5 should be very
-close.
-
-Table \ref{tab:pincell} shows k-effective and its uncertainty for the six cases
-described above.
+For the purposes of validating the $S(\alpha,\beta)$ treatment in OpenMC, we
+compare the results of OpenMC on this simple ``benchmark'' to those from
+MCNP5-1.51 using the same ENDF/B-VII.0 cross-section libraries. With the same
+cross-section libraries and similar physics treatments, it would be expected
+that the results between OpenMC and MCNP5 should be very close. Each case was
+run with 50 inactive cycles and 1,000 active cycles, each with 10,000
+particles. Table \ref{tab:pincell} shows k-effective and its uncertainty for the
+six cases described above.
 
 \begin{table}
   \caption{Effective Multiplication Factor for INDC(USA)-107 pin-cell problem.}
@@ -493,6 +493,50 @@ described above.
 \end{table}
 
 \subsubsection{Unresolved Resonance Treatment}
+
+Besides thermal scattering, the other energy range that requires special
+treatment is the unresolved resonance range. For many nuclides, resonances in
+the 1 to 100 keV energy range are so narrow and closely spaced that is not
+possible to experimentally resolve the details of all resonances. In the absence
+of any special techniques, one would have to use the dilute-average
+cross-section in the unresolved range. This may be an acceptable approximation
+for problems that are not sensitive to the unresolved resonance range (notably
+LWRs and other thermal reactors), but for other problems it can result in
+serious errors in reported answers.
+
+Several benchmark problems are particularly sensitive to the unresovled
+resonance treatment. We have chosen to compare results on a model of the Big Ten
+critical assembly (IEU-MET-FAST-007 from the International Criticality Safety
+Handbook [REF]) as a means of validating the implementation of the probability
+table method in OpenMC. This assembly is a large, mixed Uranium metal
+cylindrical core of 10\% enrichment surrounded by a U-238 reflector. The version
+of the benchmark from the MCNP expanded criticality validation suite [REF] is
+used. This version has been submitted for inclusion in the Handbook but has not
+yet been approved.
+
+The Big Ten benchmark was run using MCNP5-1.51 and OpenMC using the same
+ENDF/B-VII.0 cross section libraries. In each case, 50 inactive cycles and 1,000
+active cycles were used, each consisting of 10,000 particles. Table
+\ref{tab:bigten} shows k-effective and its uncertainty for all runs. The results
+clearly show that the unresolved resonance probability table treatment in OpenMC
+has been implemented correctly, with results from MCNP agreeing within a few pcm
+in reactivity.
+
+\begin{table}
+  \caption{Effective Multiplication Factor for Big Ten benchmark from MCNP
+    expanded criticality validation suite.}
+  \label{tab:bigten}
+  \begin{center}
+  \begin{tabular}{ l c c }
+    \hline
+    Case & MCNP5-1.51 & OpenMC \\
+    \hline
+    Probability tables off & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    Probability tables on  & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    \hline
+  \end{tabular}
+  \end{center}
+\end{table}
 
 \subsubsection{Full-Core Problems}
 
