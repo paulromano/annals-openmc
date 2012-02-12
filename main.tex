@@ -481,12 +481,12 @@ six cases described above.
     \hline
     Case & MCNP5-1.51 & OpenMC \\
     \hline
-    1/2\verb+"+ pin, no $S(\alpha,\beta)$ & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
-    1/2\verb+"+ pin, $S(\alpha,\beta)$    & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
-    1/4\verb+"+ pin, no $S(\alpha,\beta)$ & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
-    1/4\verb+"+ pin, $S(\alpha,\beta)$    & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
-    1/8\verb+"+ pin, no $S(\alpha,\beta)$ & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
-    1/8\verb+"+ pin, $S(\alpha,\beta)$    & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    1/2\verb+"+ pin, no $S(\alpha,\beta)$ & $1.01669 \pm 0.00012$ & $1.01652 \pm 0.00006$ \\
+    1/2\verb+"+ pin, $S(\alpha,\beta)$    & $0.96811 \pm 0.00013$ & $0.96809 \pm 0.00006$ \\
+    1/4\verb+"+ pin, no $S(\alpha,\beta)$ & $1.01320 \pm 0.00016$ & $1.01325 \pm 0.00006$ \\
+    1/4\verb+"+ pin, $S(\alpha,\beta)$    & $0.92197 \pm 0.00017$ & $0.92213 \pm 0.00006$ \\
+    1/8\verb+"+ pin, no $S(\alpha,\beta)$ & $1.01320 \pm 0.00021$ & $1.01316 \pm 0.00006$ \\
+    1/8\verb+"+ pin, $S(\alpha,\beta)$    & $0.90950 \pm 0.00021$ & $0.90921 \pm 0.00005$ \\
     \hline
   \end{tabular}
   \end{center}
@@ -506,13 +506,13 @@ serious errors in reported answers.
 
 Several benchmark problems are particularly sensitive to the unresovled
 resonance treatment. We have chosen to compare results on a model of the Big Ten
-critical assembly (IEU-MET-FAST-007 from the International Criticality Safety
-Handbook [REF]) as a means of validating the implementation of the probability
-table method in OpenMC. This assembly is a large, mixed Uranium metal
-cylindrical core of 10\% enrichment surrounded by a U-238 reflector. The version
-of the benchmark from the MCNP expanded criticality validation suite [REF] is
-used. This version has been submitted for inclusion in the Handbook but has not
-yet been approved.
+critical assembly (IEU-MET-FAST-007 from the International Handbook of Evaluated
+Criticality Safety Benchmark Experiments \cite{icsbep}) as a means of validating
+the implementation of the probability table method in OpenMC. This assembly is a
+large, mixed Uranium metal cylindrical core of 10\% enrichment surrounded by a
+U-238 reflector. The version of the benchmark from the MCNP expanded criticality
+validation suite \cite{mcnp-validation} is used. This version has been submitted
+for inclusion in the Handbook but has not yet been approved.
 
 The Big Ten benchmark was run using MCNP5-1.51 and OpenMC using the same
 ENDF/B-VII.0 cross section libraries. In each case, 50 inactive cycles and 1,000
@@ -531,14 +531,51 @@ in reactivity.
     \hline
     Case & MCNP5-1.51 & OpenMC \\
     \hline
-    Probability tables off & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
-    Probability tables on  & $1.0000 \pm 0.0001$ & $1.0000 \pm 0.0001$ \\
+    Probability tables off & $1.00096 \pm 0.00017$ & $1.00100 \pm 0.00006$ \\
+    Probability tables on  & $1.00505 \pm 0.00022$ & $1.00488 \pm 0.00006$ \\
     \hline
   \end{tabular}
   \end{center}
 \end{table}
 
 \subsubsection{Full-Core Problems}
+
+While the previous two benchmark problems are ideal for identifying differences
+in the physics treatments, both have relatively simply geometries and a limited
+number of nuclides. Thus, it is desirable to also compare results on a benchmark
+with complicated geometry and materials. One such benchmark problem is the Monte
+Carlo Performance Benchmark originally proposed by Hoogenboom and Martin
+\cite{hoogenboom}. The specific aim of this benchmark is to monitor the increase
+in performance of Monte Carlo calculations of full-core reactor problems. The
+model consists of a typical PWR core layout with 241 fuel assemblies, each with
+a 17 by 17 lattice of fuel pins including 21 control rod guide tubes. The fuel
+is composed of 34 different nuclides: a mix of actinides, minor actinides, and
+key fission products.
+
+A model of the Monte Carlo Performance Benchmark was built for both MCNP5 and
+OpenMC based on Revision 1.2 of the benchmark specification. To get an estimate
+of the effective multiplication factor, each model was run with 10,000 particles
+per cycle for 150 inactive and 1000 active cycles using the same ENDF/B-VII.0
+libraries as before. Table \ref{tab:hoogenboom} shows the reported
+multiplication factors from the two codes. Once again, there is remarkable
+agreement between MCNP and OpenMC since the since cross-section libraries were
+used.
+
+\begin{table}
+  \caption{Effective Multiplication Factor for the Monte Carlo Performance
+    Benchmark Test.}
+  \label{tab:hoogenboom}
+  \begin{center}
+  \begin{tabular}{ l c }
+    \hline
+    Code & k-effective \\
+    \hline
+    MCNP5-1.51 & $1.00026 \pm 0.00021$ \\
+    OpenMC     & $1.00011 \pm 0.00006$ \\
+    \hline
+  \end{tabular}
+  \end{center}
+\end{table}
 
 \section{Conclusions}
 
