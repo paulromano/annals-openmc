@@ -80,7 +80,8 @@ under development since early 2011 at the Massachusetts Institute of
 Technology. The primary motivation for developing a new Monte Carlo code rather
 than using a previously developed code is to have a code that is easily
 extensible for research purposes in addition to being high performance, freely
-available, and written in a modern programming language.
+available, and written in a programming language conforming to a contemporary
+standard rather than an obsolete language like FORTRAN 77.
 
 \section{Methods}
 
@@ -139,7 +140,7 @@ velocity will alter both the cross sections and the secondary energy and angle
 distributions of scattered neutrons. To account for this effect on cross
 sections, Doppler broadening is typically performed in the cross section
 generation stage. For the angle and energy distributions, OpenMC uses a free gas
-approximation \citep{freegas} wherein the velocity of the target nuclei have a
+approximation \citep{freegas} wherein the velocities of the target nuclei have a
 Maxwellian distribution. For thermal neutrons scattering from bound molecules
 such as hydrogen or deuterium in water, graphite, beryllium, etc., the free gas
 approximation will not accurately capture the scattering kinematics and
@@ -215,7 +216,7 @@ With filters for pre- and post-collision energy and scoring functions for
 scattering and fission production, it is possible to use OpenMC to generate
 cross sections with user-defined group structures. These multigroup cross
 sections can subsequently be used in deterministic solvers such as coarse-mesh
-finite diffusion.
+finite difference (CMFD) diffusion.
 
 As has been demonstrated \citep{mcnp-efficiency}, some Monte Carlo codes suffer
 severe performance penalties when tallying a large number of quantities. Care
@@ -385,12 +386,12 @@ difficult than if the results had been written in a standard format. OpenMC can
 provide simulation results, such as k-effective and tally results, in both a
 traditional ASCII file as well as a binary file using the Hierarchical Data
 Format (HDF5) \citep{hdf5}. By providing an HDF5 output, it becomes trivial to
-view output using programs such as HDFView or analyze results through PyTables,
-a third-party Python package that enables easy manipulation of HDF5
-data. Additionally, large tally outputs can be written to disk efficiently, even
-using compression if necessary. HDF5 also makes performing parallel I/O much
-easier than would be otherwise since the API provides standard calls for this
-purpose.
+view output using programs such as HDFView or analyze results through PyTables
+\citep{pytables}, a third-party Python package that enables easy manipulation of
+HDF5 data. Additionally, large tally outputs can be written to disk efficiently,
+even using compression if necessary. HDF5 also makes performing parallel I/O
+much easier than would be otherwise since the API provides standard calls for
+this purpose.
 
 \autoref{fig:output} shows typical information\footnote{Note that the format of
   the standard output is subject to change.} that is printed to screen at the
@@ -493,13 +494,13 @@ compilers used, version control system, and documentation. It is instructive to
 briefly discuss the software development methodology and key decisions made that
 affect future development.
 
-OpenMC is written in standard Fortran 2003. While C and C++ were considered as
-other possible languages for development, ultimately Fortran 2003 was chosen due
+OpenMC is written in standard Fortran 2008. While C and C++ were considered as
+other possible languages for development, ultimately Fortran 2008 was chosen due
 to MIT's research focus on parallel algorithms coupled with the availability of
 co-array features in the Fortran 2008 standard. For input processing, OpenMC
 relies on a modified version of the xml-fortran \citep{xml-fortran}
 parser. Almost all important data are encapsulated in derived types. While
-object-oriented features are available in Fortran 2003, they have not yet been
+object-oriented features are available in Fortran 2008, they have not yet been
 employed in OpenMC due to limited compiler support. OpenMC has been successfully
 compiled with the gfortran, Intel, PGI, Cray, and IBM compilers with various
 platforms including several Linux distributions and Mac OS X.
@@ -829,8 +830,6 @@ Energy Innovation Hub for Modeling and Simulation of Nuclear Reactors under
 U.S. Department of Energy Contract No. DE-AC05-00OR22725. The authors would also
 like to thank Kord Smith and Andrew Siegel for the many fruitful discussions
 regarding Monte Carlo simulation on exascale computing platforms.
-
-\section*{References}
 
 \bibliography{references}
 \bibliographystyle{annals}
