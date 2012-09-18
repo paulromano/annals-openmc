@@ -9,26 +9,18 @@ function check_status {
   fi
 }
 
-echo -e -n " Running LaTeX 1............ "
-latex annals-openmc.tex > /dev/null
+echo -e -n " Running pdflatex 1......... "
+pdflatex annals-openmc.tex > /dev/null
 check_status
 
 echo -e -n " Running BibTeX............. "
 bibtex annals-openmc.aux > /dev/null
 check_status
 
-echo -e -n " Running LaTeX 2............ "
-latex annals-openmc.tex > /dev/null
+echo -e -n " Running pdflatex 2......... "
+pdflatex annals-openmc.tex > /dev/null
 check_status
 
-echo -e -n " Running LaTeX 3............ "
-latex annals-openmc.tex > /dev/null
-check_status
-
-echo -e -n " Running dvips.............. "
-dvips -Ppdf annals-openmc.dvi > /dev/null 2>&1
-check_status
-
-echo -e -n " Running ps2pdf............. "
-ps2pdf annals-openmc.ps annals-openmc.pdf > /dev/null
+echo -e -n " Running pdflatex 3......... "
+pdflatex annals-openmc.tex > /dev/null
 check_status

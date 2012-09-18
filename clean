@@ -1,3 +1,4 @@
 #!/bin/sh
 
-rm *.aux annals-openmc.bbl annals-openmc.blg annals-openmc.dvi annals-openmc.log annals-openmc.out annals-openmc.pdf annals-openmc.ps annals-openmc.spl
+doc=annals-openmc
+rm ${doc}.aux ${doc}.bbl ${doc}.blg ${doc}.log ${doc}.out ${doc}.pdf ${doc}.spl
