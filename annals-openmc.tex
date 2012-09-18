@@ -11,7 +11,7 @@
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
 
 \hypersetup{colorlinks=true,
-  pdftitle={The OpenMC Monte Carlo Particle Transport Code},
+  pdftitle={The OpenMC Monte Carlo particle transport code},
   pdfauthor={Paul K. Romano and Benoit Forget}}
 \def \figureautorefname {Fig.}
 
@@ -39,7 +39,7 @@
 
 \begin{frontmatter}
 
-\title{The OpenMC Monte Carlo Particle Transport Code\tnoteref{t1}}
+\title{The OpenMC Monte Carlo particle transport code\tnoteref{t1}}
 \author[mit]{Paul K. Romano\corref{cor1}}
 \ead{paul.k.romano@gmail.com}
 \cortext[cor1]{Corresponding author. Tel.: +1 617 452 3631.}
@@ -49,7 +49,7 @@
 
 \address[mit]{Massachusetts Institute of Technology, Department of Nuclear
   Science and Engineering, 77 Massachusetts Avenue, Building 24-607, Cambridge,
-  MA 02141}
+  MA 02139, United States}
 
 \begin{abstract}
 A new Monte Carlo code called OpenMC is currently under development at the
@@ -101,7 +101,7 @@ cross section libraries can be used.
 
 The ACE-format contains continuous-energy cross sections for the following types
 of reactions: elastic scattering, fission (or first-chance fission,
-second-chance fission, etc.), inelastic scattering, (n,$x$n), (n,$\gamma$), and
+second-chance fission, etc.), inelastic scattering, $(n,xn)$, $(n,\gamma)$, and
 various other absorption reactions. For those reactions with one or more
 neutrons in the exit channel, secondary angle and energy distributions may be
 provided. In addition, fissionable nuclides have total, prompt, and/or delayed
@@ -142,7 +142,7 @@ sections, Doppler broadening is typically performed in the cross section
 generation stage. For the angle and energy distributions, OpenMC uses a free gas
 approximation \citep{freegas} wherein the velocities of the target nuclei have a
 Maxwellian distribution. For thermal neutrons scattering from bound molecules
-such as hydrogen or deuterium in water, graphite, beryllium, etc., the free gas
+such as hydrogen or deuterium in water, graphite, and beryllium, the free gas
 approximation will not accurately capture the scattering kinematics and
 $S(\alpha,\beta)$ scattering law data must be used.
 
@@ -202,11 +202,11 @@ large numbers of tallies efficiently. The tally capability in OpenMC takes a
 similar philosophy to ensure scalability. The user can specify one or more
 filters which identify which regions of phase space should score to a given
 tally as well as the scoring function. For example, if the desired tally was the
-(n,$\gamma$) reaction rate in a fuel pin, the filter would specify the cell
+$(n,\gamma)$ reaction rate in a fuel pin, the filter would specify the cell
 which contains the fuel pin and the scoring function would be the radiative
 capture reaction rate. The following scoring functions are currently available:
 flux, total reaction rate, scattering reaction rate, neutron production from
-scattering \citep{herman}, higher scattering moments, (n,$x$n) reaction rates,
+scattering \citep{herman}, higher scattering moments, $(n,xn)$ reaction rates,
 absorption reaction rate, fission reaction rate, neutron production rate from
 fission, and surface currents. The following variables can be used as filters:
 universe, material, cell, birth cell, surface, mesh, pre-collision energy, and
@@ -234,16 +234,16 @@ necessary to perform a binary search on the specified grid.
 
 Lastly, two special types of tallies should be mentioned. One is a global tally
 for the effective multiplication factor. There are three estimators for
-k-effective available in OpenMC: analog, collision, and track-length. The analog
-estimator is simply the number of fission sites that were actually produced
-during a cycle. This estimator will be strongly correlated with the collision
-estimator. In addition to the k-effective global tally, the user can also define
-a mesh over which the Shannon entropy should be calculated in order to assess
-convergence of the source distribution \citep{entropy}.
+$k$-effective available in OpenMC: analog, collision, and track-length. The
+analog estimator is simply the number of fission sites that were actually
+produced during a cycle. This estimator will be strongly correlated with the
+collision estimator. In addition to the $k$-effective global tally, the user can
+also define a mesh over which the Shannon entropy should be calculated in order
+to assess convergence of the source distribution \citep{entropy}.
 
-\subsection{File Formats}
+\subsection{File formats}
 
-\subsubsection{User Input}
+\subsubsection{User input}
 
 Given that many Monte Carlo particle transport codes have been in production use
 for decades, it is perhaps not surprising that their user input formats are
@@ -377,13 +377,13 @@ groups.
   \label{fig:tallies-xml}
 \end{figure}
 
-\subsubsection{Simulation Output}
+\subsubsection{Simulation output}
 
 With many simulation codes, the output from the simulation is either written
 directly to the standard output or to an ASCII file with some arbitrary
 format. This can make post-processing and analysis of results considerably more
 difficult than if the results had been written in a standard format. OpenMC can
-provide simulation results, such as k-effective and tally results, in both a
+provide simulation results, such as $k$-effective and tally results, in both a
 traditional ASCII file as well as a binary file using the Hierarchical Data
 Format (HDF5) \citep{hdf5}. By providing an HDF5 output, it becomes trivial to
 view output using programs such as HDFView or analyze results through PyTables
@@ -459,11 +459,11 @@ follows:
 
 \begin{enumerate}
 \item An exclusive scan is performed on the number of sites banked, and the
-  total number of fission bank sites is broadcast to all processes. By
-  picturing the fission bank as one large array distributed across multiple
-  processes, one can see that this step enables each process to determine the
-  starting index of fission bank sites in this array. Let us call the starting
-  and ending indices on the $i$-th process $a_i$ and $b_i$, respectively;
+  total number of fission bank sites is broadcast to all processes. By picturing
+  the fission bank as one large array distributed across multiple processes, one
+  can see that this step enables each process to determine the starting index of
+  fission bank sites in this array. Let us call the starting and ending indices
+  on the $i$th process $a_i$ and $b_i$, respectively;
 \item Each process samples sites at random from the fission bank using the same
   starting seed. A separate array on each process is created that consists of
   sites that were sampled local to that process, {\em i.e.} if the index of the
@@ -485,7 +485,7 @@ proportional to the square root of the number of particles per generation. In
 other words, this algorithm is $O({\sqrt{N}})$ where a traditional algorithm
 would be $O({N})$.
 
-\subsection{Code Development}
+\subsection{Code development}
 
 One of the substantial benefits of writing a code from scratch is that it is
 natural to take advantage of modern software practices. This applies to every
@@ -530,20 +530,20 @@ extreme cases that would lead to large differences in results if the underlying
 algorithms were not implemented correctly. All of the benchmark model inputs for
 OpenMC and MCNP referenced in this paper can be found online \citep{benchmarks}.
 
-\subsubsection{Thermal Scattering}
+\subsubsection{Thermal scattering}
 
 For problems that have a thermal spectrum such as a commercial light-water
 reactor, it is essential to accurately treat the scattering of neutrons from
 bound scatterers such as hydrogen in water. One model that highlights
 differences in the bound-scattering treatment is a very simple pin-cell model
 proposed by \citet{pincell}. This problem consists of an infinite lattice of
-fuel pins with a 2 inch pitch and varying fuel pin radii. The fuel consists of
+fuel pins with a 2 in. pitch and varying fuel pin radii. The fuel consists of
 only two nuclides, U-235 and U-238, and furthermore there is no fuel cladding or
 gap. The water is not borated, i.e. it consists only of hydrogen and oxygen. By
 having a very simple model, the problem achieves two goals:
 \begin{enumerate}
   \item There is no ``correct'' answer to the problem, and thus those
-    participating in the benchmark didn't have a preconceived notion of whether
+    participating in the benchmark did not have a preconceived notion of whether
     their own results were correct.
   \item Since the materials are very simple, any differences in answers can be
     almost solely attributed to the bound-scattering treatment.
@@ -551,10 +551,10 @@ having a very simple model, the problem achieves two goals:
 
 The paper on this benchmark suggested six cases to run corresponding to each
 combination of three different fuel pin radii and two different scattering
-treatments. The fuel pin radii specified were 1/2, 1/4, and 1/8-th of an inch,
+treatments. The fuel pin radii specified were 1/2, 1/4, and 1/8th of an inch,
 and each of those models was to be run with and without the $S(\alpha,\beta)$
 scattering law data. The report showed that between the 10 different Monte Carlo
-codes used, there were differences in k-effective of up to 2\% even for such a
+codes used, there were differences in $k$-effective of up to 2\% even for such a
 simple model. Of course, there are numerous reasons for the vast spread of
 results between codes including different cross section libraries (ENDF/B-VI,
 ENDF/B-V, JEFF), cross section treatments (continuous-energy vs. multigroup),
@@ -565,11 +565,11 @@ compare the results of OpenMC on this simple ``benchmark'' to those from MCNP5
 using the same ENDF/B-VII.0 cross section libraries. With the same cross section
 libraries and similar physics treatments, it would be expected that the results
 between OpenMC and MCNP5 should be very close. Each MCNP run had 50 inactive
-batches and 1,000 active batches, each with 100,000 particles. It was necessary
-to run OpenMC longer to get a comparable variance on k-effective since OpenMC
-does not yet use a combined estimator for k-effective like MCNP does. Thus, the
-OpenMC runs had 50 inactive batches and 4,000 active batches, each with 100,000
-particles. \autoref{tab:pincell} shows k-effective and its standard deviation
+batches and 1000 active batches, each with 100,000 particles. It was necessary
+to run OpenMC longer to get a comparable variance on $k$-effective since OpenMC
+does not yet use a combined estimator for $k$-effective like MCNP does. Thus, the
+OpenMC runs had 50 inactive batches and 4000 active batches, each with 100,000
+particles. \autoref{tab:pincell} shows $k$-effective and its standard deviation
 for the six cases described above. It should be noted that the uncertainties
 reported here were calculated assuming no correlation between successive batches
 and therefore may be underpredicted.
@@ -593,17 +593,17 @@ and therefore may be underpredicted.
   \end{center}
 \end{table}
 
-\subsubsection{Unresolved Resonance Treatment}
+\subsubsection{Unresolved resonance treatment}
 
 Besides thermal scattering, the other energy range that requires special
 treatment is the unresolved resonance range. For many nuclides, resonances in
-the 1 to 100 keV energy range are so narrow and closely spaced that is not
-possible to experimentally resolve the details of all resonances. In the absence
-of any special techniques, one would have to use the dilute-average
-cross section in the unresolved range. This may be an acceptable approximation
-for problems that are not sensitive to the unresolved resonance range (notably
-LWRs and other thermal reactors), but for other problems it can result in
-serious errors in reported answers.
+the 1-100 keV energy range are so narrow and closely spaced that is not possible
+to experimentally resolve the details of all resonances. In the absence of any
+special techniques, one would have to use the dilute-average cross section in
+the unresolved range. This may be an acceptable approximation for problems that
+are not sensitive to the unresolved resonance range (notably LWRs and other
+thermal reactors), but for other problems it can result in serious errors in
+reported answers.
 
 Several benchmark problems are particularly sensitive to the unresolved
 resonance treatment. We have chosen to compare results on a model of the Big Ten
@@ -617,9 +617,9 @@ version has been submitted for inclusion in the Handbook but has not yet been
 approved.
 
 The Big Ten benchmark was run in MCNP5 and OpenMC using the same ENDF/B-VII.0
-cross section libraries. Again, each MCNP run had 50 inactive 1,000 active
-batches, each consisting of 10,000 particles, whereas the OpenMC run had 4,000
-active batches. \autoref{tab:bigten} shows k-effective and its standard
+cross section libraries. Again, each MCNP run had 50 inactive 1000 active
+batches, each consisting of 10,000 particles, whereas the OpenMC run had 4000
+active batches. \autoref{tab:bigten} shows $k$-effective and its standard
 deviation for all runs. The results clearly show that the unresolved resonance
 probability table treatment in OpenMC has been implemented correctly, with
 results from MCNP agreeing within a few pcm in reactivity.
@@ -640,7 +640,7 @@ results from MCNP agreeing within a few pcm in reactivity.
   \end{center}
 \end{table}
 
-\subsubsection{Full-Core Problems}
+\subsubsection{Full-core problems}
 
 While the previous two benchmark problems are ideal for identifying differences
 in the physics treatments, both have relatively simple geometries and a limited
@@ -665,8 +665,8 @@ assemblies within a core and the fuel pins and guide tubes within an assembly.
 A model of the Monte Carlo Performance Benchmark was built for both OpenMC and
 MCNP5 based on Revision 1.2 of the benchmark specification. To get an estimate
 of the effective multiplication factor, the MCNP model was run with 100,000
-particles per cycle for 150 inactive and 1,000 active batches. OpenMC was then
-run with 100,000 particles per cycle, 150 inactive batches, and 4,000 active
+particles per cycle for 150 inactive and 1000 active batches. OpenMC was then
+run with 100,000 particles per cycle, 150 inactive batches, and 4000 active
 batches using the same ENDF/B-VII.0 libraries. \autoref{tab:mcperformance} shows
 the effective multiplication factors and their standard deviations as reported
 by the two codes. Once again, there is good agreement between OpenMC and MCNP
@@ -679,7 +679,7 @@ since the same cross section libraries were used.
   \begin{center}
   \begin{tabular}{ l c }
     \hline
-    Code & k-effective \\
+    Code & $k$-effective \\
     \hline
     MCNP5-1.51 & $1.00023 \pm 0.00006$ \\
     OpenMC     & $1.00002 \pm 0.00006$ \\
@@ -688,7 +688,7 @@ since the same cross section libraries were used.
   \end{center}
 \end{table}
 
-\subsection{Tally Performance}
+\subsection{Tally performance}
 
 The tally mapping technique described in Section \ref{sec:tallies} can help to
 substantially reduce the overhead for scoring tallies when there are very large
@@ -701,15 +701,15 @@ The Monte Carlo Performance Benchmark was run on an Intel Core i5 processor with
 20,000 neutrons per cycle, 150 inactive batches, and 150 active batches. A mesh
 tally was set up to score the neutron production rate over the entire core with
 a single mesh cell covering every fuel pin divided into 100 axial segments. For
-this model, such a mesh is 289 x 289 x 100 which in turn means there are a total
-of 8,352,100 tally bins. The effective calculation rate was 4,957 neutrons per
-second. \autoref{fig:tallies} shows the amount of time spent in cycle during the
-simulation. One can see that each inactive cycle took on average 3.79 seconds
-and each active cycle took on average 4.28 seconds, meaning that the overhead
-due to tallies is about half a second per cycle. It is interesting to note that
-almost all of the overhead is due to accumulating the sum and sum-of-squares at
-the end of the cycle and not actually from the subroutines in which individual
-particle histories score to the tally bins.
+this model, such a mesh is 289 $\times$ 289 $\times$ 100 which in turn means
+there are a total of 8,352,100 tally bins. The effective calculation rate was
+4957 neutrons per second. \autoref{fig:tallies} shows the amount of time spent
+in cycle during the simulation. One can see that each inactive cycle took on
+average 3.79 s and each active cycle took on average 4.28 s, meaning
+that the overhead due to tallies is about half a second per cycle. It is
+interesting to note that almost all of the overhead is due to accumulating the
+sum and sum-of-squares at the end of the cycle and not actually from the
+subroutines in which individual particle histories score to the tally bins.
 
 \begin{figure}[!ht]
   \centering
@@ -731,7 +731,7 @@ the overhead may have been considerably higher. Similarly, had the run been
 performed in parallel over hundreds of processors, there would be an additional
 source of overhead from collecting the tallies onto one processor.
 
-\subsection{Parallel Scaling}
+\subsection{Parallel scaling}
 
 To test the parallel fission bank algorithm originally proposed by
 \citet{fissionbank} and described further in Section \ref{sec:parallelism}, a
@@ -824,11 +824,11 @@ involved and take advantage of the code for their own studies.
 
 This research was performed under appointment of the first author to the
 Rickover Fellowship Program in Nuclear Engineering sponsored by Naval Reactor
-Division of the U.S. Department of Energy. Partial funding for this research was
+Division of the US Department of Energy. Partial funding for this research was
 provided by the Consortium for Advanced Simulation of Light Water Reactors, an
-Energy Innovation Hub for Modeling and Simulation of Nuclear Reactors under
-U.S. Department of Energy Contract No. DE-AC05-00OR22725. The authors would also
-like to thank Kord Smith and Andrew Siegel for the many fruitful discussions
+Energy Innovation Hub for Modeling and Simulation of Nuclear Reactors under US
+Department of Energy Contract No. DE-AC05-00OR22725. The authors would also like
+to thank Kord Smith and Andrew Siegel for the many fruitful discussions
 regarding Monte Carlo simulation on exascale computing platforms.
 
 \bibliography{references}
