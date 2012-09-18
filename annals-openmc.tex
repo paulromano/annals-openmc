@@ -6,6 +6,7 @@
 \usepackage[utf8]{inputenc} % Use UTF8 input encoding
 \usepackage{lmodern}        % Use Latin Modern fonts
 \usepackage{microtype}      % Improve typography
+\usepackage{booktabs}       % Improved table spacing
 
 \usepackage[breaklinks=true]{hyperref}
 \usepackage{listings}
@@ -583,17 +584,17 @@ and therefore may be underpredicted.
   \caption{Effective Multiplication Factor for INDC(USA)-107 pin-cell problem.}
   \label{tab:pincell}
   \begin{center}
-  \begin{tabular}{ l c c }
-    \hline
+  \begin{tabular}{ l l l }
+    \toprule
     Case & MCNP5-1.51 & OpenMC \\
-    \hline
+    \midrule
     1/2\verb+"+ pin, no $S(\alpha,\beta)$ & $1.01649 \pm 0.00004$ & $1.01656 \pm 0.00006$ \\
     1/2\verb+"+ pin, $S(\alpha,\beta)$    & $0.96812 \pm 0.00004$ & $0.96814 \pm 0.00006$ \\
     1/4\verb+"+ pin, no $S(\alpha,\beta)$ & $1.01330 \pm 0.00005$ & $1.01328 \pm 0.00006$ \\
     1/4\verb+"+ pin, $S(\alpha,\beta)$    & $0.92226 \pm 0.00005$ & $0.92219 \pm 0.00006$ \\
     1/8\verb+"+ pin, no $S(\alpha,\beta)$ & $1.01327 \pm 0.00007$ & $1.01309 \pm 0.00006$ \\
     1/8\verb+"+ pin, $S(\alpha,\beta)$    & $0.90921 \pm 0.00007$ & $0.90938 \pm 0.00006$ \\
-    \hline
+    \bottomrule
   \end{tabular}
   \end{center}
 \end{table}
@@ -634,13 +635,13 @@ results from MCNP agreeing within a few pcm in reactivity.
     expanded criticality validation suite.}
   \label{tab:bigten}
   \begin{center}
-  \begin{tabular}{ l c c }
-    \hline
+  \begin{tabular}{ l l l }
+    \toprule
     Case & MCNP5-1.51 & OpenMC \\
-    \hline
+    \midrule
     Probability tables off & $1.00085 \pm 0.00005$ & $1.00095 \pm 0.00007$ \\
     Probability tables on  & $1.00480 \pm 0.00005$ & $1.00485 \pm 0.00007$ \\
-    \hline
+    \bottomrule
   \end{tabular}
   \end{center}
 \end{table}
@@ -682,13 +683,13 @@ since the same cross section libraries were used.
     Benchmark Test.}
   \label{tab:mcperformance}
   \begin{center}
-  \begin{tabular}{ l c }
-    \hline
+  \begin{tabular}{ l l }
+    \toprule
     Code & $k$-effective \\
-    \hline
+    \midrule
     MCNP5-1.51 & $1.00023 \pm 0.00006$ \\
     OpenMC     & $1.00002 \pm 0.00006$ \\
-    \hline
+    \bottomrule
   \end{tabular}
   \end{center}
 \end{table}
