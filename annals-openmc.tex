@@ -1,4 +1,4 @@
-\documentclass[authoryear,preprint]{elsarticle}
+\documentclass[authoryear,5p]{elsarticle}
 
 \renewcommand{\today}{}  % Get rid of date on footer
 \journal{Ann. Nucl. Energy}
@@ -26,6 +26,9 @@
 \captionsetup[figure]{labelsep=period, name=Fig.}
 \captionsetup[table]{labelsep=newline}
 \def \figureautorefname {Fig.}
+
+\usepackage{subcaption}
+\usepackage{dblfloatfix}
 
 \lstset{
   basicstyle=\footnotesize\ttfamily,
@@ -61,7 +64,8 @@
 
 \address{Massachusetts Institute of Technology, Department of Nuclear Science
   and Engineering, 77 Massachusetts Avenue, Building 24-607, Cambridge, MA
-  02139, United States}
+  02139, United States
+  \vspace{-8ex}}
 
 \begin{abstract}
 A new Monte Carlo code called OpenMC is currently under development at the
@@ -305,8 +309,10 @@ the simulation. In this case, the code will give the nu-fission reaction rate,
 $\nu\Sigma_f\phi$, in the U-233 sphere and the U-235 shell, each over two energy
 groups.
 
-\begin{figure}
-  \begin{lstlisting}[language=xml]
+\begin{figure*}
+  \begin{center}
+    \begin{subfigure}{0.75\textwidth}
+      \begin{lstlisting}[language=xml]
 <?xml version="1.0"?>
 <geometry>
 
@@ -317,13 +323,17 @@ groups.
   <surface id="2" type="sphere" coeffs="0. 0. 0. 6.5887" boundary="vacuum"/>
 
 </geometry>
-  \end{lstlisting}
+      \end{lstlisting}
+    \end{subfigure}
+  \end{center}
   \caption{Geometry XML file for benchmark model U233-MET-FAST-002.}
   \label{fig:geometry-xml}
-\end{figure}
+\end{figure*}
 
-\begin{figure}
-  \begin{lstlisting}[language=xml]
+\begin{figure*}
+  \begin{center}
+    \begin{subfigure}{0.5\textwidth}
+      \begin{lstlisting}[language=xml]
 <?xml version="1.0"?>
 <materials>
 
@@ -343,13 +353,17 @@ groups.
   </material>
 
 </materials>
-  \end{lstlisting}
+      \end{lstlisting}
+    \end{subfigure}
+  \end{center}
   \caption{Material XML file for benchmark model U233-MET-FAST-002.}
   \label{fig:materials-xml}
-\end{figure}
+\end{figure*}
 
-\begin{figure}
-  \begin{lstlisting}[language=XML]
+\begin{figure*}
+  \begin{center}
+    \begin{subfigure}{0.5\textwidth}
+      \begin{lstlisting}[language=XML]
 <?xml version="1.0"?>
 <settings>
  
@@ -365,13 +379,17 @@ groups.
   </source>
 
 </settings>
-  \end{lstlisting}
+      \end{lstlisting}
+    \end{subfigure}
+  \end{center}
   \caption{Settings XML file for benchmark model U233-MET-FAST-002.}
   \label{fig:settings-xml}
-\end{figure}
+\end{figure*}
 
-\begin{figure}
-  \begin{lstlisting}[language=XML]
+\begin{figure*}
+  \begin{center}
+    \begin{subfigure}{0.5\textwidth}
+      \begin{lstlisting}[language=XML]
 <?xml version="1.0"?>
 <tallies>
 
@@ -384,10 +402,12 @@ groups.
   </tally>
 
 </tallies>
-  \end{lstlisting}
+      \end{lstlisting}
+    \end{subfigure}
+  \end{center}
   \caption{Tallies XML file for benchmark model U233-MET-FAST-002.}
   \label{fig:tallies-xml}
-\end{figure}
+\end{figure*}
 
 \subsubsection{Simulation output}
 
@@ -413,7 +433,7 @@ benchmark. This case was run with 50 inactive and 4000 active batches, each with
 printed to standard output would also be written to the HDF5 output file.
 
 \begin{figure}
-  \small{
+  \footnotesize{
     \begin{verbatim}
 =============>     TIMING STATISTICS     <=============
 
@@ -586,7 +606,7 @@ for the six cases described above. It should be noted that the uncertainties
 reported here were calculated assuming no correlation between successive batches
 and therefore may be underpredicted.
 
-\begin{table}
+\begin{table}\small
   \caption{Effective Multiplication Factor for INDC(USA)-107 pin-cell problem.}
   \label{tab:pincell}
   \begin{center}
@@ -636,7 +656,7 @@ deviation for all runs. The results clearly show that the unresolved resonance
 probability table treatment in OpenMC has been implemented correctly, with
 results from MCNP agreeing within a few pcm in reactivity.
 
-\begin{table}
+\begin{table}\small
   \caption{Effective Multiplication Factor for Big Ten benchmark from MCNP
     expanded criticality validation suite.}
   \label{tab:bigten}
@@ -684,7 +704,7 @@ the effective multiplication factors and their standard deviations as reported
 by the two codes. Once again, there is good agreement between OpenMC and MCNP
 since the same cross section libraries were used.
 
-\begin{table}
+\begin{table}\small
   \caption{Effective Multiplication Factor for the Monte Carlo Performance
     Benchmark Test.}
   \label{tab:mcperformance}
@@ -725,7 +745,7 @@ subroutines in which individual particle histories score to the tally bins.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=4in]{tallies.pdf}
+  \includegraphics[width=3.8in]{tallies.pdf}
   \caption{Elapsed cycle times with 8 million tally bins on Monte Carlo
     Performance Benchmark.}
   \label{fig:tallies}
@@ -780,7 +800,7 @@ I/O techniques to mitigate this overhead.
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=4in]{scaling_loglog.pdf}
+  \includegraphics[width=3.8in]{scaling_loglog.pdf}
   \caption{Parallel scaling for the Monte Carlo Performance Benchmark on the
     Cray XK6 (Jaguar) supercomputer.}
   \label{fig:scaling}
